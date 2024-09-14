@@ -23,6 +23,7 @@ class Robot {
     void setLeftSpeed(float speed);
     
     void drive(byte direction);
+    void driveDistance(byte direction, int distance);
     void brake();
     void turn(int radius, int angle); // int or float? will it even be possible to get it to turn with a given radius?
 
@@ -30,6 +31,7 @@ class Robot {
   private:
     Wheel *_leftWheels;
     Wheel *_rightWheels;
+    byte _numLeftWheels, _numRightWheels;
     float _speed;
 };
 
