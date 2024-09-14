@@ -62,6 +62,24 @@ e.g.
    
 ## `LineFollower` Class
 
+#### Constructor
+`LineFollower linefollowername(Robot *robot, byte numIRSensors)`
+
+A `LineFollower` object is instantiated with a pointer to the `Robot` object that it controls, and the number of IR sensors it uses to detect the line.
+
+#### Methods
+1. `setPIDConstants(float K_P, float K_I, float K_D)`
+
+    Define the constants to multiply the proportional, integral and derivative terms by in the calculation of the resultant PID signal.
+
+2. `junctionDetected()`
+
+    Returns a `bool`. Returns `true` if all sensors detect the line, and `false` otherwise.
+
+3. `lineFollow()`
+
+    Reads the IR sensors, finds the error, calculates a PID signal, and gives signals to the `Wheel`s of the `Robot` it is attached to, accordingly.
+
 ## `Gripper` Class
 
 ## `Robot` Class
