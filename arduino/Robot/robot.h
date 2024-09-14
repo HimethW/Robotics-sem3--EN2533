@@ -24,7 +24,7 @@ class Robot {
     
     void drive(byte direction);
     void brake();
-    void stop();
+    void turn(int radius, int angle); // int or float? will it even be possible to get it to turn with a given radius?
 
     void attachGripper(Gripper *gripper);
   private:
