@@ -12,16 +12,22 @@
 
 class LineFollower {
   public:
-    LineFollower(Robot robot);
+    LineFollower(Robot *robot, byte numIRSensors);
     void setPIDConstants(float K_P, float K_I, float K_D);
     void lineFollow();
     bool junctionDetected();
   private:
-    Robot _robot;
+    Robot *_robot;
+
     float _K_P, _K_I, _K_D;
     float _prevError;
+    float _errorIntegral;
 
-    float _calculateError(float *readings); // assuming that IR sensors give floats as readings
+    byte _numIRSensors;
+    float *_readings;
+
+    void _readIRSensors();
+    float _calculateError();
     float _getPID(float error);
 };
 
