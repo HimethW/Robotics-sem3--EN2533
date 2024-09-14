@@ -10,8 +10,19 @@
 #include "Arduino.h"
 #include "Robot.h"
 
-void readIRSensors(float *readings); // change to int* if digital sensors are used
-float calculateError(float *readings);
-float getPID(float error, float *errorIntegral, float *errorDerivative);
+class LineFollower {
+  public:
+    LineFollower(Robot robot);
+    void setPIDConstants(float K_P, float K_I, float K_D);
+    void lineFollow();
+    bool junctionDetected();
+  private:
+    Robot _robot;
+    float _K_P, _K_I, _K_D;
+    float _prevError;
+
+    float _calculateError(float *readings); // assuming that IR sensors give floats as readings
+    float _getPID(float error);
+};
 
 #endif
