@@ -7,13 +7,17 @@ A motor controlled through an H-bridge requires two inputs (from digital pins) t
 and one input to set the speed to rotate at (from a PWM pin).
 
 #### Methods
-1. `forward(int speed)`
+1. `setSpeed(float speed)`
 
-    Writes `HIGH` to `controlPinA`, `LOW` to `controlPinB`, and `speed` to `speedPin`.
+    Writes a PWM signal corresponding to `speed` to `speedPin`.
 
-2. `backward(int speed)`
+3. `forward()`
 
-    Writes `LOW` to `controlPinA`, `HIGH` to `controlPinB`, and `speed` to `speedPin`.
+    Writes `HIGH` to `controlPinA`, `LOW` to `controlPinB`.
+
+2. `backward()`
+
+    Writes `LOW` to `controlPinA`, `HIGH` to `controlPinB`.
 
 3. `stop()`
 
@@ -22,6 +26,17 @@ and one input to set the speed to rotate at (from a PWM pin).
 4. `brake()`
 
     Writes `LOW` to both `controlPinA` and `controlPinB`.
+
+#### Other
+`Wheel.h` includes the definition of the type `Wheel_t`, defined as follows.
+```
+typedef struct {
+    byte controlPinA,
+    byte controlPinB,
+    byte speedPin
+} Wheel_t;
+```
+This can be used to store all the pins required to instantiate a `Wheel` object, and can be passed to a different function that could use these values to do so.
 
 ## `Sensor` Class
 Sensors can typically be interfaced using libraries. Code that imports such libraries and reads values from the sensor can be implemented in a different file. It is sufficient to implement functions that read values from the sensor, process them as necessary, and return an array of floats or integers. Such functions can then be passed as callbacks to instances of the `Sensor` class.
@@ -93,26 +108,39 @@ The `Robot` class defines a single entity representing an entire mobile robot. A
 The constructor takes no arguments.
 
 #### Methods
-1. `attachGripper(Gripper gripper)`
+1. `attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *rightWheels, byte numRightWheels)`
 
-    A `Gripper` object must be given.
+    Two `Wheel_t` arrays, one containing `Wheel_t`s corresponding to all the wheels on the left, and the other, to all the wheels on the right. The number of wheels on each side must also be passed.
 
-2. `attachWheels(Wheel rearLeft, Wheel forwardLeft, Wheel forwardRight, Wheel rearRight)`
+2. `setBaseSpeed(float speed)`
 
-    Four `Wheel` objects, defining the four wheels of the robot must be given.
+    Sets a base speed for all the wheels of the robot.
 
-3. `drive(int speed)`
+3. `setRightSpeed(float speed)`
 
-    Makes the robot move at the specified speed, overriding any signals coming from the controller.
-    A positive value for `speed` causes the robot to drive forward, and a negative value causes it to drive
-    backward, in each case at a speed proportional to the absolute value of `speed`. If `speed` is `0`, the
-    robot soft-brakes.
+    Changes the speed of only the right wheels to the given value.
 
-4. `brake()`
+4. `setLeftSpeed(float speed)`
+
+    Changes the speed of only the left wheels to the given value.
+
+5. `drive(byte direction)`
+
+    Drives in the indicated direction at the specified base speed, by setting the speed of all wheels to that value. `direction` can be `FORWARD` or `BACKWARD`, which are constant keywords defined within the library.
+
+6. `driveDistance(byte direction, int distance)`
+
+    Drives in the indicated direction at the specified base speed, until the distance specified by `distance` is covered.
+    
+7. `brake()`
 
     Hard-brakes the robot.
 
-5. `turn(int radius, int angle)`
+8. `turn(int radius, int angle)`
    
     Gives appropriate speeds to the wheels such that the robot turns through an arc with the given radius,
     until it turns through the specified angle.
+
+9. `attachGripper(Gripper *gripper)`
+
+    A pointer to a `Gripper` object must be given.
