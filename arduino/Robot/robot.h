@@ -10,6 +10,9 @@
 #include "Arduino.h"
 #include "Wheels.h"
 
+#define FORWARD 0
+#define BACKWARD 1
+
 class Robot {
   public:
     Robot();
