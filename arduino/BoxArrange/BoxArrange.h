@@ -11,8 +11,8 @@
 #include "Robot.h"
 #include "LineFollower.h"
 
-void boxToTemp(Robot *robot, byte startPos, byte endPos);
-void tempToBox(Robot *robot, byte startPos, byte endPos);
-void boxToBox(Robot *robot, byte startPos, byte endPos);
+void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
+void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
+void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
 
 #endif
