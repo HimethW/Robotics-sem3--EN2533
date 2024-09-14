@@ -6,6 +6,7 @@
 
 #include "Arduino.h"
 #include "Robot.h"
+#include "LineFollower.h"
 #include "BoxArrange.h"
 
 // It is assumed that the robot starts from one of the box positions, facing the direction that the box 
@@ -13,13 +14,10 @@
 
 void boxToTemp(Robot *robot, byte startPos, byte endPos) {
   robot->turn(0, 180);  // Turn 180 degrees. These functions can be implemented in the Robot class later on.
-                        // Maybe create a different function where it uses the IR sensors and the line to know
-                        // if it turned 180 deg or something. 
+                        // Maybe create a different function where it uses the IR sensors and the line to                            // know if it turned 180 deg or something.
   
-  bool junctionMet = false; // Move forward until it reaches the junction
-  while (junctionMet) {
-    robot->lineFollower.lineFollow();
-    junctionMet = robot->lineFollower.junctionMet();
+  while (LineFollower.junctionMet()) {
+    LineFollower.lineFollow();
   }
 
   if (endPos > startPos) {
@@ -29,11 +27,11 @@ void boxToTemp(Robot *robot, byte startPos, byte endPos) {
     robot->turn(0, 90);   // Turn right
   }
 
-  byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach the
-                           // end position
+  byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach                              // the end position
+  
   while (junctionsMet < abs(endPos - startPos)) {
-    robot->lineFollower.lineFollow();
-    if (robot->lineFollower.junctionMet()) {
+    LineFollower.lineFollow();
+    if (LineFollower.junctionMet()) {
       junctionsMet++;
     }
   }
@@ -48,7 +46,7 @@ void boxToTemp(Robot *robot, byte startPos, byte endPos) {
   bool condition = true;  // Some condition to know we reached the end of the line. This could be based on
                           // encoders IG
   while (condition) {
-    robot->lineFollower.lineFollow();
+    LineFollower.lineFollow();
     condition = false;
   }
 }
@@ -56,10 +54,8 @@ void boxToTemp(Robot *robot, byte startPos, byte endPos) {
 void tempToBox(Robot *robot, byte startPos, byte endPos) {
   robot->turn(0, 180);
   
-  bool junctionMet = false; // Move forward until it reaches the junction
-  while (junctionMet) {
-    robot->lineFollower.lineFollow();
-    junctionMet = robot->lineFollower.junctionMet();
+  while (LineFollower.junctionMet()) {
+    LineFollower.lineFollow();
   }
 
   if (endPos > startPos) {
@@ -70,8 +66,8 @@ void tempToBox(Robot *robot, byte startPos, byte endPos) {
   
   byte junctionsMet = 0;
   while (junctionsMet < abs(endPos - startPos)) {
-    robot->lineFollower.lineFollow();
-    if (robot->lineFollower.junctionMet()) {
+    LineFollower.lineFollow();
+    if (LineFollower.junctionMet()) {
       junctionsMet++;
     }
   }
@@ -84,7 +80,7 @@ void tempToBox(Robot *robot, byte startPos, byte endPos) {
 
   bool condition = true;  // Some condition to know we reached the end of the line
   while (condition) {
-    robot->lineFollower.lineFollow();
+    LineFollower.lineFollow();
     condition = false;
   }
 }
@@ -92,10 +88,8 @@ void tempToBox(Robot *robot, byte startPos, byte endPos) {
 void boxToBox(Robot *robot, byte startPos, byte endPos) {
   robot->turn(0, 180);
   
-  bool junctionMet = false; // Move forward until it reaches the junction
-  while (junctionMet) {
-    robot->lineFollower.lineFollow();
-    junctionMet = robot->lineFollower.junctionMet();
+  while (LineFollower.junctionMet()) {
+    LineFollower.lineFollow();
   }
 
   if (endPos > startPos) {
@@ -106,8 +100,8 @@ void boxToBox(Robot *robot, byte startPos, byte endPos) {
   
   byte junctionsMet = 0;
   while (junctionsMet < abs(endPos - startPos)) {
-    robot->lineFollower.lineFollow();
-    if (robot->lineFollower.junctionMet()) {
+    LineFollower.lineFollow();
+    if (LineFollower.junctionMet()) {
       junctionsMet++;
     }
   }
@@ -120,7 +114,7 @@ void boxToBox(Robot *robot, byte startPos, byte endPos) {
 
   bool condition = true;  // Some condition to know we reached the end of the line
   while (condition) {
-    robot->lineFollower.lineFollow();
+    LineFollower.lineFollow();
     condition = false;
   }
 }
