@@ -66,19 +66,21 @@ void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
   
   driveTillJunction(lineFollower);
 
-  if (endPos > startPos) {
-    robot->turn(0, 90); // When approaching the junction from the temporary box side, we turn right here.
-  } else {
-    robot->turn(0, -90);
-  }
+  if (endPos != startPos) {
+    if (endPos > startPos) {
+      robot->turn(0, 90); // When approaching the junction from the temporary box side, we turn right here.
+    } else {
+      robot->turn(0, -90);
+    }
+    
+    passNJunctions(lineFollower, abs(endPos - startPos));
   
-  passNJunctions(lineFollower, abs(endPos - startPos));
-
-  if (endPos > startPos) {
-    robot->turn(0, -90); // Turn left here
-  } else {
-    robot->turn(0, 90); // Turn right
-  }
+    if (endPos > startPos) {
+      robot->turn(0, -90); // Turn left here
+    } else {
+      robot->turn(0, 90); // Turn right
+    }
+  } // If endPos == startPos, then you just drive straight ahead.
 
   bool condition = true;  // Some condition to know we reached the end of the line
   while (condition) {
