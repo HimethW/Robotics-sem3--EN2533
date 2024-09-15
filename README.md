@@ -1,7 +1,10 @@
-# Robot-EN2533
-Codebase for robot of robot design and competition module (EN2533)
+# EN2533 - Robot Design and Competition
 
-Folder structure
+Codebase for EN2533 Robot Design and Competition, Semester 3, 2024.
 
-- Arduino- main code, function codes
-- Documents- task sheet
+### Folder Structure
+- Arduino
+ - `main`
+ - Functions
+- Documents
+  - Task Sheet
