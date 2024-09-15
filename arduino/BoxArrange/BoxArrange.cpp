@@ -12,21 +12,22 @@
 // It is assumed that the robot starts from one of the box positions, facing the direction that the box 
 // would be placed.
 
-void driveTillJunction(LineFollower *lineFollower) {
+void driveTillJunction(Robot *robot, LineFollower *lineFollower) {
   while (lineFollower->junctionMet()) {
     lineFollower->lineFollow();
   }
+  robot->brake();
 }
 
-void passNJunctions(LineFollower *lineFollower, byte numJunctions) {
+void passNJunctions(Robot *robot, LineFollower *lineFollower, byte numJunctions) {
   byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach                              // the end position
-  
   while (junctionsMet < numJunctions) {
     lineFollower->lineFollow();
     if (lineFollower->junctionMet()) {
       junctionsMet++;
     }
   }
+  robot->brake();
 }
 
 void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
