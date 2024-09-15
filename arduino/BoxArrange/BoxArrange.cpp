@@ -6,20 +6,36 @@
 
 #include "Arduino.h"
 #include "Robot.h"
-#include "lineFollower->h"
+#include "LineFollower.h"
 #include "BoxArrange.h"
 
 // It is assumed that the robot starts from one of the box positions, facing the direction that the box 
 // would be placed.
 
-void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
-  robot->turn(0, 180);  // Turn 180 degrees. These functions can be implemented in the Robot class later on.
-                        // Maybe create a different function where it uses the IR sensors and the line to                            // know if it turned 180 deg or something.
-  
+void driveTillJunction(LineFollower *lineFollower) {
   while (lineFollower->junctionMet()) {
     lineFollower->lineFollow();
   }
+}
 
+void passNJunctions(LineFollower *lineFollower, byte numJunctions) {
+  byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach                              // the end position
+  
+  while (junctionsMet < numJunctions) {
+    lineFollower->lineFollow();
+    if (lineFollower->junctionMet()) {
+      junctionsMet++;
+    }
+  }
+}
+
+void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
+  robot->turn(0, 180);  // Turn 180 degrees.
+                        // Maybe create a different function where it uses the IR sensors and the line to
+                        // know if it turned 180 deg or something.
+  
+  driveTillJunction(lineFollower);
+  
   if (endPos > startPos) {
     robot->turn(0, -90);  // If the end position is ahead of where it is now, turn left
                           // (+ve angles - right, -ve angles left)
@@ -27,14 +43,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
     robot->turn(0, 90);   // Turn right
   }
 
-  byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach                              // the end position
-  
-  while (junctionsMet < abs(endPos - startPos)) {
-    lineFollower->lineFollow();
-    if (lineFollower->junctionMet()) {
-      junctionsMet++;
-    }
-  }
+  passNJunctions(lineFollower, abs(endPos - startPos));
 
   if (endPos > startPos) {
     robot->turn(0, 90); // If we are approaching a temporary position from a lesser start position, we turn
@@ -54,9 +63,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
 void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
   robot->turn(0, 180);
   
-  while (lineFollower->junctionMet()) {
-    lineFollower->lineFollow();
-  }
+  driveTillJunction(lineFollower);
 
   if (endPos > startPos) {
     robot->turn(0, 90); // When approaching the junction from the temporary box side, we turn right here.
@@ -64,13 +71,7 @@ void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
     robot->turn(0, -90);
   }
   
-  byte junctionsMet = 0;
-  while (junctionsMet < abs(endPos - startPos)) {
-    lineFollower->lineFollow();
-    if (lineFollower->junctionMet()) {
-      junctionsMet++;
-    }
-  }
+  passNJunctions(lineFollower, abs(endPos - startPos));
 
   if (endPos > startPos) {
     robot->turn(0, -90); // Turn left here
@@ -88,9 +89,7 @@ void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
 void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
   robot->turn(0, 180);
   
-  while (lineFollower->junctionMet()) {
-    lineFollower->lineFollow();
-  }
+  driveTillJunction(lineFollower);
 
   if (endPos > startPos) {
     robot->turn(0, -90);
@@ -98,13 +97,7 @@ void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endP
     robot->turn(0, 90);
   }
   
-  byte junctionsMet = 0;
-  while (junctionsMet < abs(endPos - startPos)) {
-    lineFollower->lineFollow();
-    if (lineFollower->junctionMet()) {
-      junctionsMet++;
-    }
-  }
+  passNJunctions(lineFollower, abs(endPos - startPos));
 
   if (endPos > startPos) {
     robot->turn(0, -90);
