@@ -15,7 +15,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
 void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
 void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
 
-void driveTillJunction(LineFollower *lineFollower);
-void passNJunctions(LineFollower *lineFollower, byte numJunctions); // check what type abs(x) returns in Arduino
+void driveTillJunction(Robot *robot, LineFollower *lineFollower);
+void passNJunctions(Robot *robot, LineFollower *lineFollower, byte numJunctions); // check what type abs(x) returns in Arduino
 
 #endif
