@@ -15,4 +15,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
 void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
 void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);
 
+void driveTillJunction(Robot *robot, LineFollower *lineFollower);
+void passNJunctions(Robot *robot, LineFollower *lineFollower, byte numJunctions);
+
 #endif
