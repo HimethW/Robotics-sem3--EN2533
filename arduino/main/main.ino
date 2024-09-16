@@ -4,6 +4,9 @@
 #include <LineFollower.h>
 #include <BoxArrange.h>
 
+#define ASCENDING 0
+#define DESCENDING 1
+
 Robot nilakna(); // LOL
 Gripper amoda(); // LOL
 
@@ -13,6 +16,11 @@ Wheel_t forwardRight = {7, 8, 9};
 Wheel_t rearRight = {10, 11, 12};
 
 LineFollower lineFollower(&nilakna, 8);
+
+int shortBoxHeight = 1;
+int midBoxHeight = 2;
+int tallBoxHeight = 3;
+int boxHeightTolerance = 1;
 
 void setup() {
   nilakna.attachWheels(rearLeft, forwardLeft, forwardRight, rearRight);
@@ -24,6 +32,7 @@ void setup() {
 }
 
 void loop() {
+  byte arrangeOrder = ASCENDING; // This variable should be set based on whatever happens above
   // Assuming we start at the place to arrange the boxes
   
   driveTillJunction(&nilakna, &lineFollower);  // Drive to the junction for the first box
@@ -34,45 +43,38 @@ void loop() {
   nilakna.brake();
 
   // We are now right in front of the first box, facing it, i.e., position index = 0
-  int height = 0;  // Measure its height
-  if (height < 0) {  // Suppose this is true if the smallest box _is_ here.
-                     // Change this so that if we are supposed to arrange in the descending order, here we
-                     // check for the tallest box. In either case, we leave this box as is.
-    boxToBox(&nilakna, &lineFollower, 0, 1); // Do nothing and go to the next box.
+  int pos0BoxHeight = 0;  // Measure its height
+  boxToBox(&nilakna, &lineFollower, 0, 1); // Go to the next position
+  int pos1BoxHeight = 1; // Measure the height of the box there
 
-    height = 0.5; // Measure the height here again.
-    if (height < 2) { // Suppose this means that the tallest box is here.
-      // In this case we need only swap this box and the one in front, and we are done.
+  if (withinTolerance(pos1BoxHeight, midBoxHeight, boxHeightTolerance)) { // Mid-height box is in the right                                                                             // place
+    if (
+        ((arrangeOrder == ASCENDING) && withinTolerance(pos0BoxHeight, tallBoxHeight, boxHeightTolerance))
+        ||
+        ((arrangeOrder == DESCENDING) && withinTolerance(pos0BoxHeight, shortBoxHeight, boxHeightTolerance))
+    ) {
+      // We need only swap the box at position index 0 with what is at position index 2
+      boxToBox(&nilakna, &lineFollower, 1, 0); // Go back to position index 0
+      amoda.grip(); // Pick up the box there
+      boxToTemp(&nilanka, &lineFollower, 0, 0); // Take it to the temporary location at the same position
+      amoda.release(); // Drop the box there
+      tempToBox(&nilakna, &lineFollower, 0, 2); // Go to the very end now
+      amoda.grip(); // Pick up the box there
+      boxToBox(&nilakna, &lineFollower, 2, 0); // Take it all the way to the first position
+      amoda.release(); // Drop it there
+      boxToTemp(&nilakna, &lineFollower, 0, 0); // Go to the temporary location that now holds the box                                                        // originally at position index 0
       amoda.grip();
-      boxToTemp(&nilakna, &lineFollower, 1, 2);
-      amoda.release();
-      tempToBox(&nilakna, &lineFollower, 2, 2);
-      amoda.grip();
-      boxToBox(&nilakna, &lineFollower, 2, 1);
-      amoda.release();
-      boxToTemp(&nilakna, &lineFollower, 1, 2);
-      amoda.grip();
-      tempToBox(&nilakna, &lineFollower, 2, 2);
+      tempToBox(&nilakna, &lineFollower, 0, 2);
       amoda.release();
       // We are done!
-    } // If not, the mid-height box is here and not arrangement is necessary. Leave the box thing here.
-      // No need to check the third box.
-  } else {
-    // The box already here is not the one that is supposed to be here.
-    byte tempEndPos = 1;
-    if (height < 2) { // Suppose this being true means that the box here is the tallest box
-                      // (i.e., if we are arranging in the ascending order; otherwise this being true means
-                      // that this is the shortest box)
-      tempEndPos = 2; // In each case, we temporarily place this box at position index = 2
     }
-    // If the above if condition were not true, the box here must be the mid-height box and must be taken
-    // to position index = 1, and tempEndPos is 1 by default.
-    amoda.grip(); // grab the box
-    boxToTemp(&nilakna, &lineFollower, 0, tempEndPos);
-    amoda.release();
-    tempToBox(&nilakna, &lineFollower, tempEndPos, tempEndPos);
-
-    height = 0.5; // Measure the height here again
-    
+    // If the above if statement does not evaluate to true, then the boxes are already arranged. We do not        // need to do anything
+  } else if (withinTolerance(pos1BoxHeight, shortBoxHeight, boxHeightTolerance)) {
+    // The shortest box is in the middle.
+    // ahh i realize im basically hard coding everything. kinda have another idea, ill think about it a     // little and implement it 
   }
+}
+
+bool withinTolerance(int value, int baseValue, int tolerance) {
+  return ((value <= baseValue + tolerance) && (value >= baseValue - tolerance));
 }
