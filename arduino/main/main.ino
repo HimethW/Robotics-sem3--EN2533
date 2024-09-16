@@ -95,8 +95,16 @@ void loop() {
         // In this case, the destination is empty, and the box can actually be taken there.
         amoda.grab();
         boxPlacements = boxPlacements & (~currentPos & 0b1111111);
-        boxToTemp(&nilakna, &lineFollower, (currentPos >> 1) & 0b111, (nextPos >> 1) & 0b111);
+        boxToBox(&nilakna, &lineFollower, (currentPos >> 1) & 0b111, (nextPos >> 1) & 0b111);
         amoda.release();
+        boxPlacements = boxPlacements | nextPos;
+
+        // By now, all boxes must be in order, except some may be in the temporary locations. All that remains is to check
+        // boxPlacements to see at which temporary positions there still are boxes, and move them to the corresponding
+        // destinations, and we will be done.
+
+        break;
+        
       }
     }
   }
