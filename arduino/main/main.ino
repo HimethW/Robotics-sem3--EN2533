@@ -15,6 +15,9 @@ const Wheel_t forwardLeft = {4, 5, 6};
 const Wheel_t forwardRight = {7, 8, 9};
 const Wheel_t rearRight = {10, 11, 12};
 
+const Wheel_t leftWheels[2] = {rearLeft, forwardLeft};
+const Wheel_t rightWheels[2] = {rearRight, forwardRight};
+
 LineFollower lineFollower(&nilakna, 8);
 
 const int shortBoxHeight = 1;
@@ -23,7 +26,7 @@ const int tallBoxHeight = 3;
 const int boxHeightTolerance = 1;
 
 void setup() {
-  nilakna.attachWheels(rearLeft, forwardLeft, forwardRight, rearRight);
+  nilakna.attachWheels(leftWheels, 2, rightWheels, 2);
   nilakna.attachGripper(&amoda); // maybe we dont need to attach the gripper to the robot and it could                                         // function on its own. doesn't matter either way, trying to kinda stick
                                  // OOP concepts
   nilakna.setBaseSpeed(1.0);
@@ -98,17 +101,36 @@ void loop() {
         boxToBox(&nilakna, &lineFollower, (currentPos >> 1) & 0b111, (nextPos >> 1) & 0b111);
         amoda.release();
         boxPlacements = boxPlacements | nextPos;
+        currentPos = nextPos;
 
         // By now, all boxes must be in order, except some may be in the temporary locations. All that remains is to check
         // boxPlacements to see at which temporary positions there still are boxes, and move them to the corresponding
         // destinations, and we will be done.
 
+        if (boxPlacements & 0b0100000) {
+          boxToTemp(&nilakna, &lineFollower, (currentPos >> 1) & 0b111, 1);
+          amoda.grab();
+          tempToBox(&nilakna, &lineFollower, 1, 1);
+          amoda.release();
+          currentPos = 0b0000010;
+        }
+
+        if (boxPlacements & 0b1000000) {
+          boxToTemp(&nilakna, &lineFollower, (currentPos >> 1) & 0b111, 2);
+          amoda.grab();
+          tempToBox(&nilakna, &lineFollower, 2, 2);
+          amoda.release();
+          currentPos = 0b0000100;
+        }
+
+        // Make the robot come to a particular place now, if necessary; maybe to the junction at position index 2, and face
+        // forward, for the next task
         break;
-        
       }
     }
   }
-  
+
+  // Rest of the tasks can continue
 }
 
 bool withinTolerance(int value, int baseValue, int tolerance) {
