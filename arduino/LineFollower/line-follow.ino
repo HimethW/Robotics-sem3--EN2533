@@ -1,3 +1,9 @@
+/*
+  line-follow.ino
+  EN2533 - Robot Design and Competition
+  Nilakna Warushavithana, July 2024
+*/
+
 //Right motor driver pins
 int in1 = 8;
 int in2 = 7;
