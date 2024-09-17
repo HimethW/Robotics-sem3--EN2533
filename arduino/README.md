@@ -158,9 +158,9 @@ The constructor takes no arguments.
 
 #### Usage
 
-A seperate function called LOG_MESSAGE(msg) is defined for user convenience and by passing a message to that function all the above mentioned information will be printed automatically.
+A seperate function called `LOG_MESSAGE(msg)` is defined for user convenience and by passing a message to that function all the above mentioned information will be printed automatically.
 
-Example: LOG_MESSAGE("System initialized");
+Example: `LOG_MESSAGE("System initialized");`
 
 This will give the following output
 
