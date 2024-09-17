@@ -144,3 +144,28 @@ The constructor takes no arguments.
 9. `attachGripper(Gripper *gripper)`
 
     A pointer to a `Gripper` object must be given.
+
+## `Logger` Class
+
+#### Methods
+1. `log`
+
+   This method is defined to arrange the debugging info into a proper format that includes the user message, file name and currently executing function. Built-in arduino macros were used for this.
+
+2. `printTime`
+
+   This is a private method that is used to track the time that has executed since the start of the program and print that information. This can be used to identify errors in high speed sequences.
+
+#### Usage
+
+A seperate function called LOG_MESSAGE(msg) is defined for user convenience and by passing a message to that function all the above mentioned information will be printed automatically.
+
+Example: LOG_MESSAGE("System initialized");
+
+This will give the following output
+
+`[TIME: 12345 ms] [sample.ino] [LINE: 10] [FUNCTION: setup] System initialized`
+
+
+   
+   
