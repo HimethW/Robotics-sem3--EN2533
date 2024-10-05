@@ -27,13 +27,13 @@ void Robot::attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *right
 }
 
 void Robot::setLeftSpeed(float speed) {
-  for (byte i = 0; i < numLeftWheels; i++) {
+  for (byte i = 0; i < _numLeftWheels; i++) {
     _leftWheels[i].setSpeed(speed);
   }
 }
 
 void Robot::setRightSpeed(float speed) {
-  for (byte i = 0; i < numRightWheels; i++) {
+  for (byte i = 0; i < _numRightWheels; i++) {
     _rightWheels[i].setSpeed(speed);
   }
 }
@@ -46,27 +46,27 @@ void Robot::setBaseSpeed(float speed) {
 
 void Robot::drive(byte direction) {
   if (direction == FORWARD) {
-    for (byte i = 0; i < numLeftWheels; i++) {
+    for (byte i = 0; i < _numLeftWheels; i++) {
       _leftWheels[i].forward();
     }
-    for (byte i = 0; i < numRightWheels; i++) {
+    for (byte i = 0; i < _numRightWheels; i++) {
       _rightWheels[i].forward();
     }
   } else if (direction == BACKWARD) {
-    for (byte i = 0; i < numLeftWheels; i++) {
+    for (byte i = 0; i < _numLeftWheels; i++) {
       _leftWheels[i].backward();
     }
-    for (byte i = 0; i < numRightWheels; i++) {
+    for (byte i = 0; i < _numRightWheels; i++) {
       _rightWheels[i].backward();
     }
   }
 }
 
 void Robot::brake() {
-  for (byte i = 0; i < numLeftWheels; i++) {
+  for (byte i = 0; i < _numLeftWheels; i++) {
     _leftWheels[i].brake();
   }
-  for (byte i = 0; i < numRightWheels; i++) {
+  for (byte i = 0; i < _numRightWheels; i++) {
     _rightWheels[i].brake();
   }
 }
