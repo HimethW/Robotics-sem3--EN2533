@@ -14,7 +14,7 @@
 #define RED_LINE_BLK_BG 2
 #define BLU_LINE_BLK_BG 3
 
-class IRSensorArray() {
+class IRSensorArray {
     public:
         IRSensorArray(byte *pins, byte numPins);
         void setMode(byte mode);
