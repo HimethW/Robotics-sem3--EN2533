@@ -7,8 +7,8 @@
 #define ASCENDING 0
 #define DESCENDING 1
 
-Robot nilakna(); // LOL
-Gripper amoda(); // LOL
+Robot nilakna; // LOL
+Gripper amoda; // LOL
 
 const Wheel_t rearLeft = {1, 2, 3}; // controlPinA, controlPinB, speedPin
 const Wheel_t forwardLeft = {4, 5, 6};
@@ -27,8 +27,6 @@ const int boxHeightTolerance = 1;
 
 void setup() {
   nilakna.attachWheels(leftWheels, 2, rightWheels, 2);
-  nilakna.attachGripper(&amoda); // maybe we dont need to attach the gripper to the robot and it could                                         // function on its own. doesn't matter either way, trying to kinda stick
-                                 // OOP concepts
   nilakna.setBaseSpeed(1.0);
 
   lineFollower.setPIDConstants(1, 0, 1);
