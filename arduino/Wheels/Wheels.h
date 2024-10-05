@@ -1,17 +1,17 @@
 /*
-  Wheel.h
+  Wheels.h
   EN2533 - Robot Design and Competition
   Nilakna Warushavithana, October 2024
 */
 
-#ifndef Wheel_h
-#define Wheel_h
+#ifndef Wheels_h
+#define Wheels_h
 
 #include "Arduino.h"
 
 class Wheel {
   public:
-    Wheel(byte in1, byte in2, byte enA);
+    Wheel(byte controlPinA, byte controlPinB, byte speedPin);
     void setSpeed(int speed);
     void forward();
     bool backward();
@@ -19,7 +19,7 @@ class Wheel {
     void brake();
 
   private:
-    byte _in1, _in2, _enA;
+    byte _controlPinA, _controlPinB, _speedPin;
 };
 
 typedef struct {
