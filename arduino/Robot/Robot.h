@@ -16,7 +16,7 @@
 class Robot {
   public:
     Robot();
-    float speed;
+    float spd;
 
     void attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *rightWheels, byte numRightWheels);
 
