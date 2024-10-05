@@ -18,6 +18,7 @@ const Wheel_t rightWheels[2] = {rearRight, forwardRight};
 
 const byte numIRSensors = 6;
 const byte IRSensorPins[numIRSensors] = {13, 14, 15, 16, 17, 18}; // PWM pins
+const float weightsArray[numIRSensors] = {-3, -2, -1, 1, 2, 3};
 
 Robot nilakna; // LOL
 Gripper amoda; // LOL
@@ -31,6 +32,7 @@ const int tallBoxHeight = 3;
 const int boxHeightTolerance = 1;
 
 void setup() {
+  pravindu.setWeights(weightsArray);
   nilakna.attachWheels(leftWheels, 2, rightWheels, 2);
   nilakna.setBaseSpeed(1.0);
 
