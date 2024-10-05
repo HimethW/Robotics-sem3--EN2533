@@ -83,7 +83,3 @@ void Robot::driveDistance(byte direction, int distance) {
 void Robot::turn(int radius, int angle) {
   // don't know how to do this yet. maybe keep turning, reading the compass, to make sure we've turned through the angle
 }
-
-void Robot::attachGripper(Gripper *gripper) {
-  _gripper = gripper;
-}
