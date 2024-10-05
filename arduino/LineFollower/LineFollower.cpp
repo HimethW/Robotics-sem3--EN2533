@@ -37,6 +37,6 @@ void LineFollower::lineFollow() {
 
   float k = 1.0;
   
-  _robot->setRightSpeed(_robot->_speed + PID * k);
-  _robot->setLeftSpeed(_robot->_speed - PID * k);
+  _robot->setRightSpeed(_robot->spd + PID * k);
+  _robot->setLeftSpeed(_robot->spd - PID * k);
 }
