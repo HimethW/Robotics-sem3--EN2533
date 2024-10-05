@@ -13,13 +13,13 @@ Robot::Robot() {
 }
 
 void Robot::attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *rightWheels, byte numRightWheels) {
-  _leftWheels = (Wheel_t*)malloc(sizeof(Wheel_t) * numLeftWheels);
+  _leftWheels = (Wheel*)malloc(sizeof(Wheel) * numLeftWheels);
   _numLeftWheels = numLeftWheels;
   for (byte i = 0; i < numLeftWheels; i++) {
     _leftWheels[i] = Wheel(leftWheels[i].controlPinA, leftWheels[i].controlPinB, leftWheels[i].speedPin);
   }
   
-  _rightWheels = (Wheel_t*)malloc(sizeof(Wheel_t) * numRightWheels);
+  _rightWheels = (Wheel*)malloc(sizeof(Wheel) * numRightWheels);
   _numRightWheels = numRightWheels;
   for (byte i = 0; i < numRightWheels; i++) {
     _rightWheels[i] = Wheel(rightWheels[i].controlPinA, rightWheels[i].controlPinB, rightWheels[i].speedPin);
