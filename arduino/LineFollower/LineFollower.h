@@ -24,7 +24,7 @@ class LineFollower {
     float _prevError;
     float _errorIntegral;
 
-    IRSensorArray _irSensorArray;
+    IRSensorArray *_irSensorArray;
 
     float _getPID(float error);
 };
