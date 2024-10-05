@@ -31,7 +31,6 @@ float LineFollower::_getPID(float error) {
 }
 
 void LineFollower::lineFollow() {
-  _readIRSensors();
   float error = _irSensorArray->getWeightedAnalogReading();
   float PID = _getPID(error);
 
