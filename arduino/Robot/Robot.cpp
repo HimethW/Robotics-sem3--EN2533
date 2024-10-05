@@ -9,7 +9,7 @@
 #include "Wheels.h"
 
 Robot::Robot() {
-  _speed = 0;
+  spd = 0;
 }
 
 void Robot::attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *rightWheels, byte numRightWheels) {
@@ -39,7 +39,7 @@ void Robot::setRightSpeed(float speed) {
 }
 
 void Robot::setBaseSpeed(float speed) {
-  _speed = speed;
+  spd = speed;
   setRightSpeed(speed);
   setLeftSpeed(speed);
 }
