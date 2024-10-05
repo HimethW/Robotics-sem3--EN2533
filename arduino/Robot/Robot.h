@@ -16,6 +16,8 @@
 class Robot {
   public:
     Robot();
+    float speed;
+
     void attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *rightWheels, byte numRightWheels);
 
     void setBaseSpeed(float speed);
@@ -31,7 +33,6 @@ class Robot {
     Wheel *_leftWheels;
     Wheel *_rightWheels;
     byte _numLeftWheels, _numRightWheels;
-    float _speed;
 };
 
 #endif
