@@ -27,7 +27,6 @@ class IRSensorArray {
         byte *_pins;
         byte _numPins;
         float *_weights;
-
-}
+};
 
 #endif
