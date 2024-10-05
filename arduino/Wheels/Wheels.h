@@ -23,9 +23,9 @@ class Wheel {
 };
 
 typedef struct {
-    byte controlPinA,
-    byte controlPinB,
-    byte speedPin
+    byte controlPinA;
+    byte controlPinB;
+    byte speedPin;
 } Wheel_t;
 
 #endif
