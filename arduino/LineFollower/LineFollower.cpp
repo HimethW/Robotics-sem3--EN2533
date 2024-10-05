@@ -14,7 +14,7 @@ LineFollower::LineFollower(Robot *robot, IRSensorArray *irSensorArray) {
   _irSensorArray = irSensorArray;
 }
 
-LineFollower::setPIDConstants(float K_P, float K_I, float K_D) {
+void LineFollower::setPIDConstants(float K_P, float K_I, float K_D) {
   _K_P = K_P;
   _K_I = K_I;
   _K_D = K_D;
