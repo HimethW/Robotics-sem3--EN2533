@@ -9,6 +9,7 @@
 
 #include "Arduino.h"
 #include "Robot.h"
+#include "IRSensors.h"
 #include "LineFollower.h"
 
 void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos);

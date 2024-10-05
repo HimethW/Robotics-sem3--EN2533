@@ -6,6 +6,7 @@
 
 #include "Arduino.h"
 #include "Robot.h"
+#include "IRSensors.h"
 #include "LineFollower.h"
 #include "BoxArrange.h"
 
@@ -13,7 +14,7 @@
 // would be placed.
 
 void driveTillJunction(Robot *robot, LineFollower *lineFollower) {
-  while (lineFollower->junctionMet()) {
+  while (lineFollower->_irSensorArray->junctionMet()) {
     lineFollower->lineFollow();
   }
   robot->brake();
@@ -23,7 +24,7 @@ void passNJunctions(Robot *robot, LineFollower *lineFollower, byte numJunctions)
   byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach                              // the end position
   while (junctionsMet < numJunctions) {
     lineFollower->lineFollow();
-    if (lineFollower->junctionMet()) {
+    if (lineFollower->_irSensorArray->junctionMet()) {
       junctionsMet++;
     }
   }

@@ -9,13 +9,14 @@
 
 #include "Arduino.h"
 #include "Robot.h"
+#include "IRSensors.h"
 
 class LineFollower {
   public:
-    LineFollower(Robot *robot, byte numIRSensors);
+    LineFollower(Robot *robot, IRSensorArray *irSensorArray);
     void setPIDConstants(float K_P, float K_I, float K_D);
     void lineFollow();
-    bool junctionDetected();
+
   private:
     Robot *_robot;
 
@@ -23,11 +24,8 @@ class LineFollower {
     float _prevError;
     float _errorIntegral;
 
-    byte _numIRSensors;
-    float *_readings;
+    IRSensorArray _irSensorArray;
 
-    void _readIRSensors();
-    float _calculateError();
     float _getPID(float error);
 };
 

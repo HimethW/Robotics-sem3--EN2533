@@ -1,14 +1,12 @@
 #include <Robot.h>
 #include <Wheels.h>
 #include <Gripper.h>
+#include <IRSensors.h>
 #include <LineFollower.h>
 #include <BoxArrange.h>
 
 #define ASCENDING 0
 #define DESCENDING 1
-
-Robot nilakna; // LOL
-Gripper amoda; // LOL
 
 const Wheel_t rearLeft = {1, 2, 3}; // controlPinA, controlPinB, speedPin
 const Wheel_t forwardLeft = {4, 5, 6};
@@ -18,7 +16,14 @@ const Wheel_t rearRight = {10, 11, 12};
 const Wheel_t leftWheels[2] = {rearLeft, forwardLeft};
 const Wheel_t rightWheels[2] = {rearRight, forwardRight};
 
-LineFollower lineFollower(&nilakna, 8);
+const byte numIRSensors = 6;
+const byte IRSensorPins[numIRSensors] = {13, 14, 15, 16, 17, 18}; // PWM pins
+
+Robot nilakna; // LOL
+Gripper amoda; // LOL
+IRSensorArray pravindu(IRSensorPins, numIRSensors); // LOL
+
+LineFollower lineFollower(&nilakna, &pravindu);
 
 const int shortBoxHeight = 1;
 const int midBoxHeight = 2;
