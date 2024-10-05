@@ -5,8 +5,8 @@
 */
 
 //Right motor driver pins
-int in1 = 8;
-int in2 = 7;
+int in1 = 7;
+int in2 = 8;
 int enA = 9;
 
 // Left motor driver pins 
@@ -84,7 +84,7 @@ void setup() {
 
   Serial.begin(9600);
 
-  calibrateSensors();
+  // calibrateSensors();
   // Serial.println(irThresh);
   // delay(2000);
 
@@ -95,6 +95,7 @@ void setup() {
 // main program
 void loop() {
   lineFollow();
+  // checkMotorDriver();
 }
 
 
