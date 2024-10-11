@@ -52,7 +52,7 @@ void loop() {
   
   // Assuming we start at the place to arrange the boxes
   
-  driveTillJunction(&nilakna, &lineFollower);  // Drive to the junction for the first box
+  nilakna.driveTillJunction(&lineFollower);  // Drive to the junction for the first box
   nilakna.turn(0, -90);  // Turn left towards the box
   while (closeEnoughToBox) { // implement closeEnoughToBox with sensors
     lineFollower.lineFollow();
