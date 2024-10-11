@@ -83,3 +83,21 @@ void Robot::driveDistance(byte direction, int distance) {
 void Robot::turn(int radius, int angle) {
   // don't know how to do this yet. maybe keep turning, reading the compass, to make sure we've turned through the angle
 }
+
+void Robot::driveTillJunction(LineFollower *lineFollower) {
+  while (lineFollower->_irSensorArray->junctionMet()) {
+    lineFollower->lineFollow();
+  }
+  brake();
+}
+
+void Robot::passNJunctions(LineFollower *lineFollower, byte numJunctions) {
+  byte junctionsMet = 0;   // Keep moving forward till it passes the relevant number of junctions to reach                              // the end position
+  while (junctionsMet < numJunctions) {
+    lineFollower->lineFollow();
+    if (lineFollower->_irSensorArray->junctionMet()) {
+      junctionsMet++;
+    }
+  }
+  brake();
+}
