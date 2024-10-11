@@ -28,6 +28,8 @@ class Robot {
     void driveDistance(byte direction, int distance);
     void brake();
     void turn(int radius, int angle); // int or float? will it even be possible to get it to turn with a given radius?
+    void driveTillJunction(LineFollower *lineFollower);
+    void passNJunctions(LineFollower *lineFollower, byte numJunctions);
 
   private:
     Wheel *_leftWheels;
