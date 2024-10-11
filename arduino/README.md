@@ -75,25 +75,17 @@ e.g.
 
     Calls the function specified in `readFloatCallBack` and places the values read in a private float array.
    
-## `LineFollower` Class
+## `PIDController` Class
 
 #### Constructor
-`LineFollower linefollowername(Robot *robot, byte numIRSensors)`
+`PIDController pidcontrollername(float K_P, float K_I, float K_D)`
 
-A `LineFollower` object is instantiated with a pointer to the `Robot` object that it controls, and the number of IR sensors it uses to detect the line.
+Instantiate a `PIDController` object. Keeps track of an error signal provided to it, and generates a PID signal. Accepts `float`s specifying the constants $K_P$, $K_I$, and $K_D$ for the proportional, integral, and derivative terms, to generate the PID signal.
 
 #### Methods
-1. `setPIDConstants(float K_P, float K_I, float K_D)`
+1. `getPID(float error)`
 
-    Define the constants to multiply the proportional, integral and derivative terms by in the calculation of the resultant PID signal.
-
-2. `junctionDetected()`
-
-    Returns a `bool`. Returns `true` if all sensors detect the line, and `false` otherwise.
-
-3. `lineFollow()`
-
-    Reads the IR sensors, finds the error, calculates a PID signal, and gives signals to the `Wheel`s of the `Robot` it is attached to, accordingly.
+    Returns a `float` corresponding to a PID signal generated based on the provided error, and the integral and derivative of the error signal seen so far, weighed down by the constants specified in the constructor.
 
 ## `Gripper` Class
 
@@ -105,45 +97,49 @@ The `Robot` class defines a single entity representing an entire mobile robot. A
 #### Constructor
 `Robot robotName()`
 
-The constructor takes no arguments.
+The constructor takes no arguments. A `Robot` object has an instance of `PIDController`, to generate PID signals to generate control signals for its wheels.
 
 #### Methods
 1. `attachWheels(Wheel_t *leftWheels, byte numLeftWheels, Wheel_t *rightWheels, byte numRightWheels)`
 
     Two `Wheel_t` arrays, one containing `Wheel_t`s corresponding to all the wheels on the left, and the other, to all the wheels on the right. The number of wheels on each side must also be passed.
 
-2. `setBaseSpeed(float speed)`
+2. `initPIDController(float K_P, float K_I, float K_D)`
+
+    Instantiates a `PIDController` object for the robot, based on the constants provided.
+
+3. `setBaseSpeed(float speed)`
 
     Sets a base speed for all the wheels of the robot.
 
-3. `setRightSpeed(float speed)`
+4. `setRightSpeed(float speed)`
 
     Changes the speed of only the right wheels to the given value.
 
-4. `setLeftSpeed(float speed)`
+5. `setLeftSpeed(float speed)`
 
     Changes the speed of only the left wheels to the given value.
 
-5. `drive(byte direction)`
+6. `drive(byte direction)`
 
     Drives in the indicated direction at the specified base speed, by setting the speed of all wheels to that value. `direction` can be `FORWARD` or `BACKWARD`, which are constant keywords defined within the library.
 
-6. `driveDistance(byte direction, int distance)`
+7. `driveDistance(byte direction, int distance)`
 
     Drives in the indicated direction at the specified base speed, until the distance specified by `distance` is covered.
     
-7. `brake()`
+8. `brake()`
 
     Hard-brakes the robot.
 
-8. `turn(int radius, int angle)`
+9. `turn(int radius, int angle)`
    
     Gives appropriate speeds to the wheels such that the robot turns through an arc with the given radius,
     until it turns through the specified angle.
 
-9. `attachGripper(Gripper *gripper)`
+10. `followLine(float error)`
 
-    A pointer to a `Gripper` object must be given.
+    Generates and writes PID signals to the wheels so as to follow a line. `error` is a float denoting how far off the robot is from the line, and must be calculated externally based on inputs from an IR sensor array.
 
 ## `Logger` Class
 
