@@ -18,7 +18,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
                         // Maybe create a different function where it uses the IR sensors and the line to
                         // know if it turned 180 deg or something.
   
-  driveTillJunction(lineFollower);
+  robot->driveTillJunction(lineFollower);
   
   if (endPos > startPos) {
     robot->turn(0, -90);  // If the end position is ahead of where it is now, turn left
@@ -27,7 +27,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
     robot->turn(0, 90);   // Turn right
   }
 
-  passNJunctions(lineFollower, abs(endPos - startPos));
+  robot->passNJunctions(lineFollower, abs(endPos - startPos));
 
   if (endPos > startPos) {
     robot->turn(0, 90); // If we are approaching a temporary position from a lesser start position, we turn
@@ -47,7 +47,7 @@ void boxToTemp(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
 void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
   robot->turn(0, 180);
   
-  driveTillJunction(lineFollower);
+  robot->driveTillJunction(lineFollower);
 
   if (endPos != startPos) {
     if (endPos > startPos) {
@@ -56,7 +56,7 @@ void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
       robot->turn(0, -90);
     }
     
-    passNJunctions(lineFollower, abs(endPos - startPos));
+    robot->passNJunctions(lineFollower, abs(endPos - startPos));
   
     if (endPos > startPos) {
       robot->turn(0, -90); // Turn left here
@@ -75,7 +75,7 @@ void tempToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte end
 void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endPos) {
   robot->turn(0, 180);
   
-  driveTillJunction(lineFollower);
+  robot->driveTillJunction(lineFollower);
 
   if (endPos > startPos) {
     robot->turn(0, -90);
@@ -83,7 +83,7 @@ void boxToBox(Robot *robot, LineFollower *lineFollower, byte startPos, byte endP
     robot->turn(0, 90);
   }
   
-  passNJunctions(lineFollower, abs(endPos - startPos));
+  robot->passNJunctions(lineFollower, abs(endPos - startPos));
 
   if (endPos > startPos) {
     robot->turn(0, -90);
