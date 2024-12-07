@@ -30,24 +30,38 @@ void IRSensorArray::setWeights(float *weightsArray) {
     }
 }
 
-float IRSensorArray::getWeightedAnalogReading() {
-    float weightedReading;
-
-    for (byte i = 0; i < _numPins; i++) {
-        float pinValue = analogRead(_pins[i]);
-        weightedReading += pinValue * _weights[i];
-    }
-
-    return weightedReading;
-}
-
 void IRSensorArray::setDigitalMode(byte mode) {
     _digitalMode = mode;
-    // Modes are so that we can set different thresholds for the sensor to regard the line as present or absent.
-    // 4 modes are there defined in the header file.
     // We set thresholds for each mode. e.g. WHT_LINE_BLK_BG = for this mode, we can set an interval of analog values
     // which the sensor reading should be within, or without, i.e., reading in [a, b] vs reading in (-infty, a] U [b, infty],
     // in order to consider the line to be detected.
+}
+
+void IRSensorArray::calibrate(float *mean, float *standardDeviation, float *analogReadings) {
+    for (byte i = 0; i < _numPins; i++) {
+        *mean += analogReadings[i];
+        *standardDeviation += analogReadings[i] * analogReadings[i];
+    }
+
+    *mean = *mean / _numPins;
+    *standardDeviation = *standardDeviation / _numPins;
+    *standardDeviation = sqrt(*standardDeviation - ((*mean) * (*mean)));
+}
+
+void IRSensorArray::calibrateIndividual(float *mean, float *standardDeviation, byte index) {
+    byte numReadings = 10;
+
+    for (byte j = 0; j < numReadings; j++) {
+        float pinValue;
+        pinValue = analogRead(_pins[index]);
+        *mean += pinValue;
+        *standardDeviation += pinValue * pinValue;
+        delay(100);
+    }
+    
+    *mean = *mean / numReadings;
+    *standardDeviation = *standardDeviation / numReadings;
+    *standardDeviation = sqrt(*standardDeviation - ((*mean) * (*mean)));
 }
 
 // Allows to set the same threshold values for each sensor, corresponding to a specified mode
@@ -84,31 +98,23 @@ void IRSensorArray::setSensorThresholds(byte mode, float* lowerThresh, float* up
     _upperThresholds[_numPins][mode] = within;
 }
 
+// use threshed values, multiply by weights and output. 
 float IRSensorArray::getWeightedDigitalReading() {
-    float weightedReading;
-    bool within = _upperThresholds[_numPins][_digitalMode];
+    float weightedReading = 0;
+    
+    byte digitalValues[_numPins];
+    getDigitalReadingsArray(digitalValues);
 
     for (byte i = 0; i < _numPins; i++) {
-        float pinValue = analogRead(_pins[i]);
-
-        float upperThresh = _upperThresholds[i][_digitalMode];
-        float lowerThresh = _lowerThresholds[i][_digitalMode];
-
-        byte digitalValue = 0;
-        if ((pinValue >= lowerThresh) && (pinValue <= upperThresh)) {
-            digitalValue = 1;
-        }
-
-        digitalValue = ~(digitalValue ^ within); // XNOR gives the required result
-
-        weightedReading += digitalValue * _weights[i];
+        weightedReading += (float)(digitalValues[i] * _weights[i]);
     }
 
     return weightedReading;
 }
 
+// use direct digitalreads.
 float IRSensorArray::getWeightedDigitalReading1() {
-    float weightedReading;
+    float weightedReading = 0;
 
     for (byte i = 0; i < _numPins; i++) {
         byte pinValue = digitalRead(_pins[i]) ^ _invert; // again is there a type casting thing?
@@ -118,25 +124,102 @@ float IRSensorArray::getWeightedDigitalReading1() {
     return weightedReading;
 }
 
-void IRSensorArray::getAnalogReadingsArray(float *targetArray) {
+void IRSensorArray::getDigitalReadingsArray(byte *targetArray) {
+    byte numReadings = 10;
+    bool within = _upperThresholds[_numPins][_digitalMode];
+
+    float sensorReadings[_numPins] = {0};
+    getAnalogReadingsArray(sensorReadings);
+    float mean = 0;
+    float stdDev = 0;
+    calibrate(&mean, &stdDev, sensorReadings);
+
     for (byte i = 0; i < _numPins; i++) {
-        float pinValue = analogRead(_pins[i]);
-        targetArray[i] = pinValue;
+
+        float upperThresh = _upperThresholds[i][_digitalMode];
+        float lowerThresh = _lowerThresholds[i][_digitalMode];
+
+        float pinValue = sensorReadings[i]; //- mean;
+
+        bool digitalValue = false;
+        if ((pinValue >= lowerThresh) && (pinValue <= upperThresh)) {
+            digitalValue = true;
+        }
+
+        digitalValue = digitalValue ^ within; // XNOR gives the required result
+        if (digitalValue) {
+            targetArray[i] = 0;
+        } else {
+            targetArray[i] = 1;
+        }
+        // Serial.print(targetArray[i]);
+        // Serial.print(" : ");
     }
+    /*Serial.print(sensorReadings[2]);
+    Serial.print(" - mean = ");
+    Serial.print(sensorReadings[2] - mean);
+    Serial.print(", B/W ");
+    Serial.print(_lowerThresholds[2][_digitalMode]);
+    Serial.print(" & ");
+    Serial.print(_upperThresholds[2][_digitalMode]);
+    Serial.print("? : ");
+    Serial.println(targetArray[2]);*/
 }
 
-// so probably in here, get analog readings, then use some threshold thing to get ones and zeros
-// rather than doing a digitalread...
-void IRSensorArray::getDigitalReadingsArray(byte *targetArray) {
+// Digital read each pin directly.
+void IRSensorArray::getDigitalReadingsArray1(byte *targetArray) {
     for (byte i = 0; i < _numPins; i++) {
         byte pinValue = digitalRead(_pins[i]) ^ _invert; // again is there a type casting thing?
         targetArray[i] = pinValue;
     }
 }
 
-bool IRSensorArray::patternDetected(byte *patternArray) {
+void IRSensorArray::getDigitalReadingsArray2(byte *targetArray) {
+    float differences[_numPins - 1];
+    for (byte i = 0; i < _numPins - 1; i++) {
+        float left = analogRead(_pins[i]);
+        float leftNext = analogRead(_pins[i + 1]);
+        differences[i] = abs(leftNext - left);
+    }
+
+}
+
+void IRSensorArray::getAnalogReadingsArray(float *targetArray) {
+    byte numReadings = 5;
+    for (byte i = 0; i < _numPins; i++) {
+        float pinValue = 0;
+        for (byte j = 0; j < numReadings; j++) {
+            pinValue += analogRead(_pins[i]); // put a delay? increase num of readings?
+        }
+        targetArray[i] = pinValue / numReadings;
+    }
+}
+
+float IRSensorArray::getWeightedAnalogReading() {
+    float weightedReading;
+
+    for (byte i = 0; i < _numPins; i++) {
+        float pinValue = analogRead(_pins[i]);
+        weightedReading += pinValue * _weights[i];
+    }
+
+    return weightedReading;
+}
+
+bool IRSensorArray::patternDetected1(byte *patternArray) {
     for (byte i = 0; i < _numPins; i++) {
         if ((digitalRead(_pins[i]) ^ _invert) != patternArray[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool IRSensorArray::patternDetected(byte *patternArray) {
+    byte digitalReadings[_numPins];
+    getDigitalReadingsArray(digitalReadings);
+    for (byte i = 0; i < _numPins; i++) {
+        if (digitalReadings[i] != patternArray[i]) {
             return false;
         }
     }
