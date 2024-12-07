@@ -28,15 +28,26 @@ class IRSensorArray {
         // situation. now that i think of it, maybe the inversion thing is nicer than the within = true/false?
         // anyway currently im not gonna put the effect of invert into the analog one.
         void setDigitalMode(byte mode);
+
+        void calibrate(float *mean, float *standardDeviation, float *analogReadings);
+        void calibrateIndividual(float *mean, float *standardDeviation, byte index);
+        
         void setSensorThresholds(byte mode, float lowerThresh, float upperThresh, bool within = true);
         void setSensorThresholds(byte mode, float* lowerThresh, float* upperThresh, bool within = true);
         void setWeights(float *weightsArray);
+        
         float getWeightedAnalogReading();
         float getWeightedDigitalReading();
         float getWeightedDigitalReading1();
+        float getWeightedDigitalReading2();
+
         void getAnalogReadingsArray(float *targetArray);
         void getDigitalReadingsArray(byte *targetArray);
+        void getDigitalReadingsArray1(byte *targetArray);
+        void getDigitalReadingsArray2(byte *targetArray);
+        
         bool patternDetected(byte *patternArray);
+        bool patternDetected1(byte *patternArray);
 
     private:
         byte _digitalMode;
