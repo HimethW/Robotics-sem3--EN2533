@@ -12,17 +12,21 @@ VL53L0X_RangingMeasurementData_t measure2;
 void initSensors() {
     pinMode(SHT_LOX1, OUTPUT);
     pinMode(SHT_LOX2, OUTPUT);
+    pinMode(SHT_LOX3, OUTPUT);
 
     digitalWrite(SHT_LOX1, LOW);
     digitalWrite(SHT_LOX2, LOW);
+    digitalWrite(SHT_LOX3, LOW);
     delay(10);
 
     digitalWrite(SHT_LOX1, HIGH);
     digitalWrite(SHT_LOX2, HIGH);
+    digitalWrite(SHT_LOX3, HIGH);
     delay(10);
 
     digitalWrite(SHT_LOX1, HIGH);
     digitalWrite(SHT_LOX2, LOW);
+    digitalWrite(SHT_LOX3, LOW);
 
     if (!lox1.begin(LOX1_ADDRESS)) {
         Serial.println(F("Failed to boot first VL53L0X"));
@@ -36,6 +40,14 @@ void initSensors() {
 
     if (!lox2.begin(LOX2_ADDRESS)) {
         Serial.println(F("Failed to boot second VL53L0X"));
+        while (1);
+    }
+
+    digitalWrite(SHT_LOX3, HIGH);
+    delay(10);
+
+    if (!lox3.begin(LOX3_ADDRESS)) {
+        Serial.println(F("Failed to boot third VL53L0X"));
         while (1);
     }
 }
@@ -67,3 +79,18 @@ int read_sensor2() {
   }
   
 }
+
+int read_sensor3() {
+
+  lox3.rangingTest(&measure3, false); // pass in 'true' to get debug data printout!
+
+  // print sensor two reading
+  if(measure3.RangeStatus != 4) {
+    int sensor3 = measure3.RangeMilliMeter;
+    return sensor3;
+  } else {
+    //Serial.println("3 Out of range");
+  }
+  
+}
+
