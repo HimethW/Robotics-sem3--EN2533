@@ -99,17 +99,36 @@ void calibrateColourSensors() {
   redAvgRight = (redAvgRight_blueBox + redAvgRight_redBox) / 2;
 }
 
+// bool isRed(byte side) {
+//   uint16_t c = readRegister16(TCS34725_CDATAL);
+//   uint16_t r = readRegister16(TCS34725_CDATAL + 2);
+//   uint16_t g = readRegister16(TCS34725_CDATAL + 4);
+//   uint16_t b = readRegister16(TCS34725_CDATAL + 6);
+//   // Do we really need c, g, b? Probably they can be set to like empty variables and passed to getRawData.
+  
+//   if (side == RIGHT) {
+//     rightColorSensor.getRawData(&r, &g, &b, &c);
+//     return (r > redAvgRight);
+//   } else {
+//     return (r > redAvgLeft);
+//   }
+// }
+
+
+//i'm editing this part. see if this is okay. your original code is commented out above
 bool isRed(byte side) {
-  uint16_t c = readRegister16(TCS34725_CDATAL);
-  uint16_t r = readRegister16(TCS34725_CDATAL + 2);
-  uint16_t g = readRegister16(TCS34725_CDATAL + 4);
-  uint16_t b = readRegister16(TCS34725_CDATAL + 6);
+  uint16_t c;
+  uint16_t r;
+  uint16_t g;
+  uint16_t b;
   // Do we really need c, g, b? Probably they can be set to like empty variables and passed to getRawData.
   
   if (side == RIGHT) {
     rightColorSensor.getRawData(&r, &g, &b, &c);
     return (r > redAvgRight);
   } else {
+    r = readRegister16(TCS34725_CDATAL + 2); //if the side is LEFT we need to read the left sensor manually. cannot use the previously read value
     return (r > redAvgLeft);
   }
+  
 }
