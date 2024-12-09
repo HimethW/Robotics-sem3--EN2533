@@ -60,9 +60,10 @@ void calibrateColourSensors() {
   byte numReadings = 10;
 
   Serial.println("PLACE ON RED");
-  digitalWrite(13, HIGH);
-  delay(3000);
   digitalWrite(13, LOW);
+  delay(5000);
+  digitalWrite(13, HIGH);
+  Serial.println("Starting Calibration on RED");
 
   float redAvgRight_redBox = 0;
   float redAvgLeft_redBox = 0;
@@ -76,9 +77,10 @@ void calibrateColourSensors() {
   redAvgLeft_redBox /= numReadings;
   
   Serial.println("PLACE ON BLUE");
-  digitalWrite(13, HIGH);
-  delay(3000);
   digitalWrite(13, LOW);
+  delay(5000);
+  digitalWrite(13, HIGH);
+  Serial.println("Starting Calibration on BLUE");
   
   float redAvgRight_blueBox = 0;
   float redAvgLeft_blueBox = 0;
@@ -91,9 +93,9 @@ void calibrateColourSensors() {
   redAvgRight_blueBox /= numReadings;
   redAvgLeft_blueBox /= numReadings;
 
-  digitalWrite(13, HIGH);
-  delay(3000);
   digitalWrite(13, LOW);
+  Serial.print("Calibration Complete");
+  
 
   redAvgLeft = (redAvgLeft_blueBox + redAvgLeft_redBox) / 2;
   redAvgRight = (redAvgRight_blueBox + redAvgRight_redBox) / 2;
