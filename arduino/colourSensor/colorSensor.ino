@@ -8,7 +8,6 @@
 #define BLUE 1
 #define BLACK 2
 
-
 // Define custom I²C pins
 #define CUSTOM_SDA 44
 #define CUSTOM_SCL 45
