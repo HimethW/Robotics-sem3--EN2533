@@ -12,7 +12,11 @@
 class PIDController {
   public:
     PIDController(float K_P, float K_I, float K_D);
+    void updateConstants(float K_P, float K_I, float K_D);
     float getPID(float error);
+    void getExisting(float *targetArray);
+    void restoreTo(float *array);
+    void reset();
 
   private:
     float _K_P, _K_I, _K_D;
