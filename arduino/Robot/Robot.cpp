@@ -129,29 +129,39 @@ void Robot::brake() {
   }
 }
 
-// something is wrong with this?
 void Robot::driveDistance(byte direction, int distance) {
   drive(direction);
 
   int distanceMoved = 0;
+
+  int rightStartEncoderCounts[_numRightWheels];
+  int leftStartEncoderCounts[_numLeftWheels];
+
+  for (byte i = 0; i < _numRightWheels; i++) {
+    rightStartEncoderCounts[i] = _rightWheels[i].encoderCount;
+  }
+
+  for (byte i = 0; i < _numLeftWheels; i++) {
+    leftStartEncoderCounts[i] = _leftWheels[i].encoderCount;
+  }
   
   while (distanceMoved < distance) {
-    
     int rightWheelDistance = 0;
     for (byte i = 0; i < _numRightWheels; i++) {
-      rightWheelDistance += _rightWheels[i].encoderCount;
+      rightWheelDistance += _rightWheels[i].encoderCount - rightStartEncoderCounts[i];
     }
     rightWheelDistance /= _numRightWheels;
 
     int leftWheelDistance = 0;
     for (byte i = 0; i < _numLeftWheels; i++) {
-      leftWheelDistance += _leftWheels[i].encoderCount;
+      leftWheelDistance += _leftWheels[i].encoderCount - leftStartEncoderCounts[i];
     }
     leftWheelDistance /= _numLeftWheels;
 
     distanceMoved = (leftWheelDistance + rightWheelDistance) / 2;
     Serial.println(distanceMoved);
   }
+
   brake();
 }
 
