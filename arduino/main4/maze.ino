@@ -50,13 +50,17 @@ void moveBox(byte barcodeResult) {
     b();
     turn(RIGHT, 530, 130, 0);
     f();
+    f();  //new line
+    f();  //new line
     turn(LEFT, 500, 0, 180);
     f();
   } else {
     f();
     turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500, 0, 180);
+    f();  //new line
+    f();  //new line
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
   }
 }
 
@@ -67,10 +71,10 @@ byte findGate() {
   // Code to check if the first gate is open. If open, set
   gatePosition = 1;
 
-  turn(RIGHT, 530, 130, 0);
-  f();
-  f();
-  turn(LEFT, 500, 0, 180);
+  //turn(RIGHT, 530, 130, 0);  //removed
+  //f();                        //removed
+  //f();                        //removed
+  //turn(LEFT, 500, 0, 180);   //removed
 
   // Code to check if the second gate is open. If open, set
   gatePosition = 2;
@@ -99,7 +103,7 @@ void solveMaze(byte barcodeResult, byte gatePosition) {
 }
 
 void func0(byte gatePosition) {
-  turn(LEFT, 500, 0, 180);
+  turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
   f();
   f();
   f();
@@ -134,10 +138,10 @@ void func0(byte gatePosition) {
 
 void func1(byte gatePosition) {
   if (gatePosition == 1) {
-    turn(LEFT, 500, 0, 180);
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
     f();
     f();
-    turn(LEFT, 500, 0, 180);
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
     f();
     pickup();
     b();
@@ -156,7 +160,7 @@ void func1(byte gatePosition) {
     f();
     turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500, 0, 180);
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
     f();
     pickup();
     b();
@@ -177,7 +181,7 @@ void func2(byte gatePosition) {
     f();
     turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500, 0, 180);
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
     f();
     pickup();
     b();
@@ -190,7 +194,7 @@ void func2(byte gatePosition) {
     f();
     turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500, 0, 180);
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
     f();
     pickup();
     b();
@@ -200,7 +204,7 @@ void func2(byte gatePosition) {
 
 void func3(byte gatePosition) {
   if (gatePosition == 1) {
-    turn(RIGHT, 530, 130, 0);
+    turnonSpot(RIGHT, ticksfor90, turnspeed);  //changed ////////////////////////////////////
     f();
     turn(RIGHT, 530, 130, 0);
     f();
