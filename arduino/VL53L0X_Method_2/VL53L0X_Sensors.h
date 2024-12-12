@@ -9,9 +9,9 @@
 #define LOX3_ADDRESS 0x32
 
 // Define shutdown pins
-#define SHT_LOX1 7
-#define SHT_LOX2 6
-#define SHT_LOX3 5
+#define SHT_LOX1 30
+#define SHT_LOX2 31
+#define SHT_LOX3 33
 
 // Function prototypes
 void initTofSensors();

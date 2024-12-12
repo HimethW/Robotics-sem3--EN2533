@@ -1,5 +1,8 @@
 #include "VL53L0X_Sensors.h"
 
+// #define SHT_LOX1 30 // Sensor 1
+// #define SHT_LOX2 31 // Sensor 2
+// #define SHT_LOX3 33 // Sensor 3
 
 // 1 - lower 3cm
 // 2 - middle 7cm
