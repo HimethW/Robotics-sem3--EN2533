@@ -14,7 +14,7 @@
 #define SHT_LOX3 5
 
 // Function prototypes
-void initSensors();
+void initTofSensors();
 int read_sensor1();
 int read_sensor2();
 int read_sensor3();

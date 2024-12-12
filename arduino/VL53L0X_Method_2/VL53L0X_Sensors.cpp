@@ -3,13 +3,15 @@
 // Create objects for the sensors
 Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
 Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
+Adafruit_VL53L0X lox3 = Adafruit_VL53L0X();
 
 // Measurement data structures
 VL53L0X_RangingMeasurementData_t measure1;
 VL53L0X_RangingMeasurementData_t measure2;
+VL53L0X_RangingMeasurementData_t measure3;
 
 // Sensor initialization function
-void initSensors() {
+void initTofSensors() {
     pinMode(SHT_LOX1, OUTPUT);
     pinMode(SHT_LOX2, OUTPUT);
     pinMode(SHT_LOX3, OUTPUT);
@@ -30,7 +32,7 @@ void initSensors() {
 
     if (!lox1.begin(LOX1_ADDRESS)) {
         Serial.println(F("Failed to boot first VL53L0X"));
-        while (1);
+        //while (1); // ADD THIS
     }
 
     delay(10);
@@ -40,7 +42,7 @@ void initSensors() {
 
     if (!lox2.begin(LOX2_ADDRESS)) {
         Serial.println(F("Failed to boot second VL53L0X"));
-        while (1);
+        // while (1); //ADD THIS
     }
 
     digitalWrite(SHT_LOX3, HIGH);
@@ -48,7 +50,7 @@ void initSensors() {
 
     if (!lox3.begin(LOX3_ADDRESS)) {
         Serial.println(F("Failed to boot third VL53L0X"));
-        while (1);
+        //while (1);
     }
 }
 
