@@ -4,8 +4,6 @@
   Pulasthi Udugamasooriya, 5 October, 2024
 */
 
-// Works as of now (1)
-
 #include "Arduino.h"
 #include "IRSensors.h"
 
