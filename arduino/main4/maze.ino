@@ -48,15 +48,15 @@ void moveBox(byte barcodeResult) {
     f();
     drop();
     b();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
   } else {
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
   }
 }
 
@@ -67,10 +67,10 @@ byte findGate() {
   // Code to check if the first gate is open. If open, set
   gatePosition = 1;
 
-  turn(RIGHT, 530);
+  turn(RIGHT, 530, 130, 0);
   f();
   f();
-  turn(LEFT, 500);
+  turn(LEFT, 500, 0, 180);
 
   // Code to check if the second gate is open. If open, set
   gatePosition = 2;
@@ -99,7 +99,7 @@ void solveMaze(byte barcodeResult, byte gatePosition) {
 }
 
 void func0(byte gatePosition) {
-  turn(LEFT, 500);
+  turn(LEFT, 500, 0, 180);
   f();
   f();
   f();
@@ -108,11 +108,11 @@ void func0(byte gatePosition) {
   if (gatePosition == 1) {
     drop();
     b();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
     pickup();
     f();
@@ -121,11 +121,11 @@ void func0(byte gatePosition) {
     b();
     drop();
     b();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
     pickup();
     f();
@@ -134,17 +134,17 @@ void func0(byte gatePosition) {
 
 void func1(byte gatePosition) {
   if (gatePosition == 1) {
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     pickup();
     b();
     b();
   } else {
     b();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     f();
     pickup();
@@ -152,11 +152,11 @@ void func1(byte gatePosition) {
     b();
     drop();
     b();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     pickup();
     b();
@@ -166,18 +166,18 @@ void func1(byte gatePosition) {
 
 void func2(byte gatePosition) {
   b();
-  turn(LEFT, 500);
+  turn(LEFT, 500, 0, 180);
   f();
   pickup();
   if (gatePosition == 1) {
     f();
     drop();
     b();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     pickup();
     b();
@@ -186,11 +186,11 @@ void func2(byte gatePosition) {
     b();
     drop();
     b();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     pickup();
     b();
@@ -200,29 +200,29 @@ void func2(byte gatePosition) {
 
 void func3(byte gatePosition) {
   if (gatePosition == 1) {
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
     pickup();
     f();
     f();
     drop();
     b();
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500);
+    turn(LEFT, 500, 0, 180);
     f();
     pickup();
     b();
     b();
   } else {
-    turn(RIGHT, 530);
-    turn(RIGHT, 530);
+    turn(RIGHT, 530, 130, 0);
+    turn(RIGHT, 530, 130, 0);
     f();
     pickup();
     b();
@@ -231,10 +231,10 @@ void func3(byte gatePosition) {
 }
 
 void func4(byte gatePosition) {
-  turn(RIGHT, 530);
-  turn(RIGHT, 530);
+  turn(RIGHT, 530, 130, 0);
+  turn(RIGHT, 530, 130, 0);
   f();
-  turn(LEFT, 500);
+  turn(LEFT, 500, 0, 180);
   f();
   pickup();
   b();
@@ -244,11 +244,11 @@ void func4(byte gatePosition) {
   }
   drop();
   b();
-  turn(LEFT, 500);
+  turn(LEFT, 500, 0, 180);
   f();
-  turn(RIGHT, 530);
+  turn(RIGHT, 530, 130, 0);
   f();
-  turn(RIGHT, 530);
+  turn(RIGHT, 530, 130, 0);
   f();
   pickup();
   b();
