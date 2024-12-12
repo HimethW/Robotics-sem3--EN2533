@@ -1,4 +1,4 @@
-void calibration() {
+void IRSensorCalibration() {
   // Find mean and standard deviation from all sensors, with the robot placed on a white line. This gives the typical "white-ish" reading from ALL sensors.
   // The thinking is that a reading significantly different from this is unlikely to be white.
   float overallMean = 0;

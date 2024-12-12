@@ -152,11 +152,8 @@ byte equalizeEncoderTillJunc() {
   return j;
 }
 
-void turn(byte direction, int numTicks) {
+void turn(byte direction, int numTicks, int rightWheelSpeed, int leftWheelSpeed) {
   // Move forward a bit, brake and pause, and take the turn.
-
-  // consider accepting a different argument, and based on that, we decide whether we stop one wheel and turn the other one back, or if we
-  // rotate around the center; turning one forward and the other backward.
 
   nilakna.drive(FORWARD);
   moveForwardEncoder(550);  // We may need to change this if we can't go very far forward.
@@ -171,13 +168,15 @@ void turn(byte direction, int numTicks) {
 
   if (direction == RIGHT) {
     while (rightWheel.encoderCount < numTicks) {
-      nilakna.setBaseSpeed(130, 0);
+      nilakna.setBaseSpeed(rightWheelSpeed, leftWheelSpeed);
       rightWheel.backward();
+      leftWheel.forward();
     }
   } else {
     while (leftWheel.encoderCount < numTicks) {
-      nilakna.setBaseSpeed(0, 180);
+      nilakna.setBaseSpeed(rightWheelSpeed, leftWheelSpeed);
       leftWheel.backward();
+      rightWheel.forward();
     }
   }
 

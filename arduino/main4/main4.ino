@@ -84,26 +84,33 @@ void preventStalls() {
 int a = 0;
 
 void loop() {
-  byte result = barcodeRead();
-  // Move to the end of the first junction
-  equalizeEncoderTillJunc();
-  // Turn
-  turn(RIGHT, 500);
-  // Correct the course and go forward using encoders till the first junction.
-  f();
-  // Now start Himeth's part
-  moveBox(result);
-  byte gatePos = findGate();
-  solveMaze(result, gatePos);
+  // byte result = barcodeRead();
+  // // Move to the end of the first junction
+  // equalizeEncoderTillJunc();
+  // // Turn
+  // turn(RIGHT, 500, 130, 0);
+  // // Correct the course and go forward using encoders till the first junction.
+  // f();
+  // nilakna.brake();
+  // delay(2000);
+  // nilakna.drive(FORWARD);
+  // // Now start Himeth's part
+  // moveBox(result);
+  // byte gatePos = findGate();
+  // solveMaze(result, gatePos);
+  reverse(300);
+  nilakna.brake();
+  delay(2000);
+  nilakna.drive(BACKWARD);
 }
 
 void juncandturn() {
   byte j = equalizeEncoderTillJunc();
 
   if (j == LEFT) {
-    turn(LEFT, 400);
+    turn(LEFT, 400, 0, 180);
   } else if (j == RIGHT) {
-    turn(RIGHT, 500);
+    turn(RIGHT, 500, 130, 0);
   }
 
   nilakna.brake();
