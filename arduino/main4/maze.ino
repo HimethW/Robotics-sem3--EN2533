@@ -204,7 +204,7 @@ void func2(byte gatePosition) {
 
 void func3(byte gatePosition) {
   if (gatePosition == 1) {
-    turnonSpot(RIGHT, ticksfor90, turnspeed);  //changed ////////////////////////////////////
+    turnonSpot(RIGHT, ticksfor90, turnspeed);  //changed 
     f();
     turn(RIGHT, 530, 130, 0);
     f();
@@ -219,26 +219,31 @@ void func3(byte gatePosition) {
     f();
     turn(LEFT, 500, 0, 180);
     f();
-    turn(LEFT, 500, 0, 180);
+    turnonSpot(LEFT, ticksfor90, turnspeed);  //changed
     f();
     pickup();
     b();
     b();
   } else {
-    turn(RIGHT, 530, 130, 0);
-    turn(RIGHT, 530, 130, 0);
-    f();
+    //turn(RIGHT, 530, 130, 0);  //removed
+    //turn(RIGHT, 530, 130, 0);  //removed
+    //f();                        //removed
+    b();                          //added
     pickup();
-    b();
-    b();
+    //b();                        //removed
+    //b();                        //removed
+    f();                          //added
+    f();                          //added
   }
 }
 
 void func4(byte gatePosition) {
-  turn(RIGHT, 530, 130, 0);
-  turn(RIGHT, 530, 130, 0);
-  f();
-  turn(LEFT, 500, 0, 180);
+  //turn(RIGHT, 530, 130, 0);      //removed
+  //turn(RIGHT, 530, 130, 0);      //removed
+  //f();                            //removd
+  b();                              //added
+  //turn(LEFT, 500, 0, 180);        //removed
+  turn(RIGHT,530,130,0)             //added
   f();
   pickup();
   b();
@@ -252,7 +257,7 @@ void func4(byte gatePosition) {
   f();
   turn(RIGHT, 530, 130, 0);
   f();
-  turn(RIGHT, 530, 130, 0);
+  turnonSpot(RIGHT, ticksfor90, turnspeed);  //changed
   f();
   pickup();
   b();
