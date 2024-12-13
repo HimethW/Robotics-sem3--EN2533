@@ -48,9 +48,9 @@ void ColorSensorCalibration(){
   float redAvgRight_redBox = 0;
   float redAvgLeft_redBox = 0;
   for (byte i = 0; i < numReadings; i++) {
-    r1 = RightSensor.readRawValue()
+    r1 = RightSensor.readRawValue();
     redAvgRight_redBox += r1;                                                        //
-    r2 = LeftSensor.readRawValue()
+    r2 = LeftSensor.readRawValue();
     redAvgLeft_redBox += r2;                                                           //
   }
   redAvgRight_redBox /= numReadings;
@@ -65,9 +65,9 @@ void ColorSensorCalibration(){
   float redAvgRight_blueBox = 0;
   float redAvgLeft_blueBox = 0;
   for (byte i = 0; i < numReadings; i++) {
-    r1 = readRegister16(RightSensor, TCS34725_CDATAL + 2);
+    r1 = RightSensor.readRawValue();
     redAvgRight_blueBox += r1;
-    r2 = readRegister16(LeftSensor, TCS34725_CDATAL + 2);
+    r2 = LeftSensor.readRawValue();
     redAvgLeft_blueBox += r2;
   }
   redAvgRight_blueBox /= numReadings;
@@ -82,9 +82,9 @@ void ColorSensorCalibration(){
   float redAvgRight_black = 0;
   float redAvgLeft_black = 0;
   for (byte i = 0; i < numReadings; i++) {
-    r1 = readRegister16(RightSensor, TCS34725_CDATAL + 2);
+    r1 = RightSensor.readRawValue();
     redAvgRight_black += r1;
-    r2 = readRegister16(LeftSensor, TCS34725_CDATAL + 2);
+    r2 = LeftSensor.readRawValue();
     redAvgLeft_black += r2;
   }
   redAvgRight_black /= numReadings;
@@ -100,8 +100,8 @@ void ColorSensorCalibration(){
   redAvgLeft_blackblue = (redAvgLeft_blueBox + redAvgLeft_black) / 2;
   redAvgRight_blackblue = (redAvgRight_blueBox + redAvgRight_black) / 2;
 
-  RightSensor.setThresholds(redAvgRight_redblue,redAvgRight_blackblue)
-  LeftSensor.setThresholds(redAvgLeft_redblue,redAvgLeft_blackblue)
+  RightSensor.setThresholds(redAvgRight_redblue,redAvgRight_blackblue);
+  LeftSensor.setThresholds(redAvgLeft_redblue,redAvgLeft_blackblue);
   
 
 }
