@@ -7,6 +7,12 @@
 #define NONE 2
 #define BOTH 3
 
+#define RED 0
+#define BLUE 1
+
+#define TICKS_180 650
+#define TICKS_90 330
+
 const byte numIRSensors = 8;
 const byte IRSensorPins[numIRSensors] = { A14, A13, A12, A11, A10, A9, A8, A7 };  // left to right
 const float weightsArray[numIRSensors] = { -20, -10, -6, -2, 2, 6, 10, 20 };      // furthest are +- 15
@@ -59,11 +65,11 @@ void setup() {
   pravindu.setWeights(weightsArray);
 
   analogWrite(A1, 155);
-  calibration();
+  IRSensorCalibration();
   analogWrite(A1, 0);
 
   nilakna.attachWheels(&leftWheel, &rightWheel);
-  nilakna.setBaseSpeed(80, 80);  // 130, 90..corrected so that it goes forward.
+  nilakna.setBaseSpeed(80, 80);
   nilakna.setMinMaxSpeeds(20, 150);
   nilakna.initPIDController(10, 0, 10);  // for line following P = 6.5, D = 20 work.
 
@@ -81,27 +87,25 @@ void preventStalls() {
   }
 }
 
-int a = 0;
-
 void loop() {
-  // byte result = barcodeRead();
-  // // Move to the end of the first junction
-  // equalizeEncoderTillJunc();
-  // // Turn
-  // turn(RIGHT, 500, 130, 0);
-  // // Correct the course and go forward using encoders till the first junction.
-  // f();
-  // nilakna.brake();
-  // delay(2000);
-  // nilakna.drive(FORWARD);
-  // // Now start Himeth's part
-  // moveBox(result);
-  // byte gatePos = findGate();
-  // solveMaze(result, gatePos);
-  reverse(300);
+  nilakna.setBaseSpeed(80, 80);
+  nilakna.drive(FORWARD);
+  byte result = barcodeRead();
+  // Move to the end of the first junction
+  equalizeEncoderTillJunc();
+  // Turn
+  turn(RIGHT, 500, 130, 0);
+  // Correct course and go forward using encoders till the first junction.
+  f();
   nilakna.brake();
   delay(2000);
-  nilakna.drive(BACKWARD);
+  nilakna.drive(FORWARD);
+  // Now start Himeth's part
+  moveBox(result);
+  byte gatePos = findGate();
+  solveMaze(result, gatePos);
+  // color line follow
+  byte color = RED;
 }
 
 void juncandturn() {

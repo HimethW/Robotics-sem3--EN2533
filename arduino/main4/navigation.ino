@@ -183,3 +183,21 @@ void turn(byte direction, int numTicks, int rightWheelSpeed, int leftWheelSpeed)
   nilakna.brake();
   delay(2000);
 }
+
+void turnWithoutForward(byte direction, int numTicks, int speed) {
+  // Move forward a bit, brake and pause, and take the turn
+
+  nilakna.drive(FORWARD);
+
+  leftWheel.resetEncoderCount();
+  rightWheel.resetEncoderCount();
+
+  while (rightWheel.encoderCount < numTicks) {
+    nilakna.setBaseSpeed(speed, speed);
+    rightWheel.backward();
+    leftWheel.forward();
+  }
+
+  nilakna.brake();
+  delay(2000);
+}
