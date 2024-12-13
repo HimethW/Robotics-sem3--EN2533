@@ -3,16 +3,30 @@
 #include "Gripper.h"
 
 Gripper::Gripper (byte controlPinA, byte controlPinB) {
-    _servo1.attach (controlPinA);
-    _servo2.attach (controlPinB);
+    _pinA = controlPinA;
+    _pinB = controlPinB;
 }
+
+void Gripper::initialize() {
+    _servo1.attach (_pinA);
+    _servo2.attach (_pinB);
+}
+
+void Gripper::detach(byte servoNum) {
+    if (servoNum == LIFTER){
+        _servo1.detach();
+    }
+    else if (servoNum == GRABBER){
+        _servo2.detach();
+    }
+}    
 
 void Gripper::lift (byte stopAngle) {
     _servo1.write(stopAngle);
 }
 
-void Gripper::lower (byte stopAngle) {
-    _servo1.write(stopAngle);
+void Gripper::lower () {
+    _servo1.write(0);
 }
 
 void Gripper::grab () {
@@ -21,4 +35,8 @@ void Gripper::grab () {
 
 void Gripper::release () {
     _servo2.write(75);
+}
+
+void Gripper::push () {
+    _servo2.write(170);
 }

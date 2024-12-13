@@ -12,20 +12,29 @@
 class Wheel {
   public:
     Wheel(byte controlPinA, byte controlPinB, byte speedPin);
+
+    void setEncoderPins(byte encoderPin1, byte encoderPin2);
+    void updateEncoderCount();
+    void resetEncoderCount();
+    long encoderCount; // kinda ugly having this here tho ig. we may not need two counts if we are doing the direction thing.
+
     void setSpeed(int speed);
     void forward();
-    bool backward();
+    void backward();
     void stop();
     void brake();
 
   private:
     byte _controlPinA, _controlPinB, _speedPin;
+    byte _encoderPin1, _encoderPin2;
 };
 
 typedef struct {
     byte controlPinA;
     byte controlPinB;
     byte speedPin;
+    byte encoderPin1 = -1;
+    byte encoderPin2 = -1;
 } Wheel_t;
 
 #endif
