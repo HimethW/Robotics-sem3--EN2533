@@ -133,7 +133,7 @@ int read_sensor4() {
   // print sensor two reading
   if(measure4
   .RangeStatus != 4) {
-    int sensor4 = measure3.RangeMilliMeter;
+    int sensor4 = measure4.RangeMilliMeter;
     return sensor4;
   } else {
     //Serial.println("3 Out of range");
