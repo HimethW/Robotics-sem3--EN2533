@@ -9,11 +9,15 @@
 // 3 - high 13 cm
 
 // Threshold to account for non-verticality of sensor tower
-const int threshold; // INITIALISE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const int threshold;  // INITIALISE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-// Upper and lower distnaces to keep box at when measuring height
-int box_dist_upper = 60;
-int box_dist_lower = 45;
+// Upper and lower distnaces for sensor offset thresholds
+int box_dist_upper = 150;
+int box_dist_lower = 90;
+
+// Sensor threshold for box height measurement (for lowest sensor 1)
+int box_keep_dist_upper = 150;
+int box_keep_dist_lower = 120;
 
 // To determine when robot is at the box
 bool start_height_measure = false;
@@ -23,38 +27,52 @@ int box = 0;
 
 
 void setup() {
-    Serial.begin(115200);
-    while (!Serial) { delay(1); }
-    
-    initSensors();  // Initialize the sensors
+  Serial.begin(115200);
+  while (!Serial) { delay(1); }
+
+  initTofSensors();  // Initialize the sensors
+  Serial.println("Inited");
+  pinMode(A1, OUTPUT);
+  digitalWrite(A1, HIGH);
 }
 
+int average_sensor_reading(int (*read_sensor)()) {
+  int sum = 0;
+  for (int i = 0; i < 5; i++) {
+    sum += read_sensor();  // Call the provided sensor reading function
+    delay(10);             // Small delay between readings for stability
+  }
+  return sum / 5;  // Return the average
+}
+
+
 void loop() {
-    int distance_to_box = read_sensor1();  // Read (Lower) Sensor 1. Doubles as small box measure
-    start_height_measure = (box_dist_lower < distance_to_box && distance_to_box < box_dist_upper);
+  int distance_to_box = read_sensor1();  // Read (Lower) Sensor 1. Doubles as small box measure
+  start_height_measure = (box_keep_dist_lower < distance_to_box && distance_to_box < box_keep_dist_upper);
 
-    if(start_height_measure){
-      int distance_mid_box= read_sensor2();  // Read Sensor 2 Doubles as chamber measure
-      int distance_tall_box = read_sensor3();  // Read Sensor 3
+  if (start_height_measure) {
+    Serial.print("Box detected!!! ");
+    Serial.print(distance_to_box);
+    Serial.print(" Box No. ");
+    
 
-      if !(box_dist_lower < distance_mid_box && distance_mid_box < box_dist_upper) && 
-         !(box_dist_lower < distance_tall_box && distance_tall_box < box_dist_upper){
+    // Take the average of 5 readings for sensor 2 and sensor 3
+    int distance_mid_box = average_sensor_reading(read_sensor2);   // Read Sensor 2 with averaging
+    int distance_tall_box = average_sensor_reading(read_sensor3);  // Read Sensor 3 with averaging
 
-        box = 1;
-      }
-      else if (box_dist_lower < distance_mid_box && distance_mid_box < box_dist_upper) && 
-             !(box_dist_lower < distance_tall_box && distance_tall_box < box_dist_upper){
-        box = 2;
-      }
-      else if (box_dist_lower < distance_mid_box && distance_mid_box < box_dist_upper) && 
-              (box_dist_lower < distance_tall_box && distance_tall_box < box_dist_upper){
-        box = 3;
-      }
-
-
+    // Determine the box type
+    if (!(box_dist_lower < distance_mid_box && distance_mid_box < box_dist_upper) && !(box_dist_lower < distance_tall_box && distance_tall_box < box_dist_upper )) {
+      box = 1;
+    } else if ((box_dist_lower < distance_mid_box && distance_mid_box < box_dist_upper) && !(box_dist_lower < distance_tall_box && distance_tall_box < box_dist_upper)) {
+      box = 2;
+    } else if ((box_dist_lower < distance_mid_box && distance_mid_box < box_dist_upper) && (box_dist_lower < distance_tall_box && distance_tall_box < box_dist_upper)) {
+      box = 3;
     }
+  } else {
+    Serial.print("No box. Box No ");
+  }
 
+  Serial.println(box);
 
-
-    delay(100);
+  delay(100);
 }

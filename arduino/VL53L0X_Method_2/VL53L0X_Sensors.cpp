@@ -34,6 +34,9 @@ void initTofSensors() {
         Serial.println(F("Failed to boot first VL53L0X"));
         //while (1); // ADD THIS
     }
+    else {
+      Serial.println("Booted first");
+    }
 
     delay(10);
 
@@ -44,6 +47,11 @@ void initTofSensors() {
         Serial.println(F("Failed to boot second VL53L0X"));
         // while (1); //ADD THIS
     }
+    else{
+      Serial.println("Booted 2nd");
+    }
+
+    delay(10);
 
     digitalWrite(SHT_LOX3, HIGH);
     delay(10);
@@ -51,6 +59,9 @@ void initTofSensors() {
     if (!lox3.begin(LOX3_ADDRESS)) {
         Serial.println(F("Failed to boot third VL53L0X"));
         //while (1);
+    }
+    else{
+      Serial.println("Booted Third");
     }
 }
 
