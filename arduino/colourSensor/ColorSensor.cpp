@@ -23,7 +23,7 @@ uint16_t ColorSensor::readRawValue() {
     return _readRegister16(TCS34725_CDATAL + 2);
 }
 
-void ColorSensor::setThresholds(int red_blue_TH, int blue_black_TH){
+void ColorSensor::setThresholds(float red_blue_TH, float blue_black_TH){
     _redAvg_redblue = red_blue_TH;
     _redAvg_blackblue = blue_black_TH;
 }
