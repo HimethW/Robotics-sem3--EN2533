@@ -75,7 +75,7 @@ void initTofSensors() {
     digitalWrite(SHT_LOX4, HIGH);
     delay(10);
 
-    if (!lox3.begin(LOX4_ADDRESS)) {
+    if (!lox4.begin(LOX4_ADDRESS)) {
         Serial.println(F("Failed to boot fourth VL53L0X"));
         //while (1);
     }
