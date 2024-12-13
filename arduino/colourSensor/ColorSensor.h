@@ -27,7 +27,7 @@ class ColorSensor {
     ColorSensor(byte SCL_pin, byte SDA_pin);
 
     uint16_t readRawValue();
-    void setThresholds(int red_blue_TH, int blue_black_TH);
+    void setThresholds(float red_blue_TH, float blue_black_TH);
     void initialize();
     byte detectColor();
 
