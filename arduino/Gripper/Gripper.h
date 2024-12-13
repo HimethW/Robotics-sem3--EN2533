@@ -4,11 +4,14 @@
 #include "Arduino.h"
 #include "Servo.h"
 
+#define LIFTER 1
+#define GRABBER 2
 class Gripper {
     public:
     Gripper (byte controlPinA, byte controlPinB);
 
     void initialize();
+    void detach(byte servoNum);
     void lift (byte stopAngle); //For 0 < angle <= 90
     void lower ();
     void grab ();

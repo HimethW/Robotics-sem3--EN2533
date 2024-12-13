@@ -12,6 +12,15 @@ void Gripper::initialize() {
     _servo2.attach (_pinB);
 }
 
+void Gripper::detach(byte servoNum) {
+    if (servoNum == LIFTER){
+        _servo1.detach();
+    }
+    else if (servoNum == GRABBER){
+        _servo2.detach();
+    }
+}    
+
 void Gripper::lift (byte stopAngle) {
     _servo1.write(stopAngle);
 }
